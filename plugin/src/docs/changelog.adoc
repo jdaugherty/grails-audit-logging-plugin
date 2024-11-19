@@ -1,4 +1,7 @@
 == Change Log
+* 6.0.0
+** Updated for Grails 7
+
 * 5.0.0
 ** New: Participate in current Transaction by queuing audit logs. Supports nested transactions. Plugin is currently NOT ORM agnostic and needs Hibernate due to this change (PR #212). See documentation.
 ** Fix #213 nested withoutAuditLog calls
