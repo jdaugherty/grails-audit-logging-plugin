@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [8, 11]
+        java: [17, 21]
     steps:
       - uses: actions/checkout@v2
       - run: cd $GITHUB_WORKSPACE
