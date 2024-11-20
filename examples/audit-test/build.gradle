@@ -76,12 +76,6 @@ dependencies {
     testImplementation "org.grails:grails-gorm-testing-support"
     testImplementation "org.grails:grails-web-testing-support"
     testCompileOnly "org.mockito:mockito-core"
-    testCompileOnly "org.grails.plugins:geb"
-    testCompileOnly "org.seleniumhq.selenium:selenium-remote-driver:3.14.0"
-    testCompileOnly "org.seleniumhq.selenium:selenium-api:3.14.0"
-    testCompileOnly "org.seleniumhq.selenium:selenium-support:3.14.0"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
 }
 
 task wrapper(type: Wrapper) {
