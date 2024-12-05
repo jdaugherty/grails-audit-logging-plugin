@@ -1,6 +1,6 @@
 # Grails Audit Logging Plugin
 
-This plugin was originally maintained by [symentis](https://github.com/symentis) and was gracefully donated to the GPC
+This plugin was originally maintained by [symentis](https://github.com/symentis) and was gracefully donated to the grails developers to maintain.
 
 ## Description
 
@@ -9,8 +9,9 @@ The Audit Logging plugin for Grails adds generic event based Audit Logging to a 
 The master branch holds the codebase for plugin version 4.0.x (Grails 4.0.x).
 
 For older Grails versions, see "Supported Grails Versions" below.
+
 ## Moving to Maven Central
-This repositories new artifacts are currently moved to Maven Central, sind Bintray will shut down MAY/01/21. You can obtain the old artifacts from https://repo.grails.org.
+This repositories new artifacts are currently moved to Maven Central, since Bintray shut down MAY/01/21. You can obtain the old artifacts from https://repo.grails.org.
 
 ## Documentation
  * For current release documentation, see [User Guide](https://gpc.github.io/grails-audit-logging-plugin/latest/plugin.html)
