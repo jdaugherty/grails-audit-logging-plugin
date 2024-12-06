@@ -1,4 +1,7 @@
-# Grails Audit Logging Plugin
+Grails Audit Logging Plugin
+===
+![Grails 7 Compatible](https://img.shields.io/badge/Compatible-brightGreen?label=Grails%207&labelColor=grey)
+
 
 This plugin was originally maintained by [symentis](https://github.com/symentis) and was gracefully donated to the grails developers to maintain.
 
