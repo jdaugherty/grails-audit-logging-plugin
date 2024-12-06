@@ -13,8 +13,8 @@ def isBuildCacheAuthenticated =
 develocity {
   server = 'https://ge.grails.org'
   buildScan {
-    tag("grails-plugins")
-    tag("grails-plugins/grails-audit-logging")
+    tag('grails-plugins')
+    tag('grails-plugins/grails-audit-logging')
     publishing.onlyIf { isAuthenticated }
     uploadInBackground = isLocal
   }
