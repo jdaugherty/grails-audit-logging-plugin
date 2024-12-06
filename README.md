@@ -17,19 +17,19 @@ For older Grails versions, see "Supported Grails Versions" below.
 This repositories new artifacts are currently moved to Maven Central, since Bintray shut down MAY/01/21. You can obtain the old artifacts from https://repo.grails.org.
 
 ## Documentation
- * For current release documentation, see [User Guide](https://gpc.github.io/grails-audit-logging-plugin/latest/plugin.html)
- * For snapshot documentation, see [Snapshot User Guide](https://gpc.github.io/grails-audit-logging-plugin/snapshot/plugin.html)
- * For 4.x documentation, see [4.x User Guide](https://gpc.github.io/grails-audit-logging-plugin/4.0.x/plugin.html)
- * For 3.x documentation, see [3.x User Guide](https://gpc.github.io/grails-audit-logging-plugin/3.0.x/plugin.html)
- * For 2.x documentation, see [2.x User Guide](https://gpc.github.io/grails-audit-logging-plugin/2.0.x/plugin.html)
+ * For current release documentation, see [User Guide](https://grails-plugins.github.io/grails-audit-logging-plugin/latest/plugin.html)
+ * For snapshot documentation, see [Snapshot User Guide](https://grails-plugins.github.io/grails-audit-logging-plugin/snapshot/plugin.html)
+ * For 4.x documentation, see [4.x User Guide](https://grails-plugins.github.io/grails-audit-logging-plugin/4.0.x/plugin.html)
+ * For 3.x documentation, see [3.x User Guide](https://grails-plugins.github.io/grails-audit-logging-plugin/3.0.x/plugin.html)
+ * For 2.x documentation, see [2.x User Guide](https://grails-plugins.github.io/grails-audit-logging-plugin/2.0.x/plugin.html)
 
 ## Grails versions
- * Grails 7.0.x: [6.0.x branch (6.0.x version)](https://github.com/gpc/grails-audit-logging-plugin/tree/6.0.x)
- * Grails 4.0.10+: [5.0.x branch (5.0.x version)](https://github.com/gpc/grails-audit-logging-plugin/tree/5.0.x) 
- * Grails up to 4.0.9: [4.x_maintenance branch](https://github.com/gpc/grails-audit-logging-plugin/tree/4.x_maintenance)
- * Grails 3.3.x: [3.x_maintenance branch](https://github.com/gpc/grails-audit-logging-plugin/tree/3.x_maintenance)
- * Grails 3.0.x-3.2.x: [2.x_maintenance branch](https://github.com/gpc/grails-audit-logging-plugin/tree/2.x_maintenance)
- * Grails 2.x: [1.x_maintenance branch](https://github.com/gpc/grails-audit-logging-plugin/tree/1.x_maintenance)
+ * Grails 7.0.x: [6.0.x branch (6.0.x version)](https://github.com/grails-plugins/grails-audit-logging-plugin/tree/6.0.x)
+ * Grails 4.0.10+: [5.0.x branch (5.0.x version)](https://github.com/grails-plugins/grails-audit-logging-plugin/tree/5.0.x) 
+ * Grails up to 4.0.9: [4.x_maintenance branch](https://github.com/grails-plugins/grails-audit-logging-plugin/tree/4.x_maintenance)
+ * Grails 3.3.x: [3.x_maintenance branch](https://github.com/grails-plugins/grails-audit-logging-plugin/tree/3.x_maintenance)
+ * Grails 3.0.x-3.2.x: [2.x_maintenance branch](https://github.com/grails-plugins/grails-audit-logging-plugin/tree/2.x_maintenance)
+ * Grails 2.x: [1.x_maintenance branch](https://github.com/grails-plugins/grails-audit-logging-plugin/tree/1.x_maintenance)
 
 ## audit-quickstart
 You need to perform "grails audit-quickstart \<package\> \<DomainClass\>" after installing this plugin's 2.0.x version or later.
@@ -45,7 +45,7 @@ grails audit-quickstart org.example.myproject MyAuditLogEvent
 
 ## Issue Management
 
-See [GitHub Issues](https://github.com/gpc/grails-audit-logging-plugin/issues "Issues")
+See [GitHub Issues](https://github.com/grails-plugins/grails-audit-logging-plugin/issues "Issues")
 
 ## Pull Requests
 Pull requests are highly appreciated and welcome!
@@ -53,7 +53,7 @@ Pull requests are highly appreciated and welcome!
 Please add integration tests for new features to the audit-test application.
 
 ## Contributors
-Special thanks to all the <a href="https://github.com/gpc/grails-audit-logging-plugin/graphs/contributors">contributors</a> (in alphabetical order):
+Special thanks to all the <a href="https://github.com/grails-plugins/grails-audit-logging-plugin/graphs/contributors">contributors</a> (in alphabetical order):
 
 	Aaron Long
     Alan Wikie
@@ -85,9 +85,6 @@ Special thanks to all the <a href="https://github.com/gpc/grails-audit-logging-p
 
 	Project lead: TBD
 
-
-## Continuous Integration Server
-![Build Status](https://github.com/gpc/grails-audit-logging-plugin/actions/workflows/ci.yaml/badge.svg?branch=master)
 
 ## Maven Central Repository
 This plugin will be available from Maven Central, soon. Older versions (up to 4.0.3) are available from the [Grails Artifact Repository](https://repo.grails.org/ui/).
