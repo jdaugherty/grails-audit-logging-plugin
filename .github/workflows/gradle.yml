@@ -33,22 +33,26 @@ jobs:
           DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         run: ./gradlew check
       - name: "☄️ Upload Base Tests Results - audit-test"
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: testreport-audit-test-${{ matrix.java }}
           path: examples/audit-test/build/reports/tests
       - name: "☄️ Upload Base Tests Results - audit-test-allow-update-outside-transaction"
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: testreport-audit-test-allow-update-outside-transaction-${{ matrix.java }}
           path: examples/audit-test-allow-update-outside-transaction/build/reports/tests
       - name: "🔨 Run audit-test Outside of Transaction Tests"
+        if: ${{ always() }}
         env:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
           DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
           DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         run: ./gradlew :examples:audit-test:check -Daudit-test.AuditTrail.datasource=DEFAULT
       - name: "☄️ Upload audit-test Outside of Transaction Tests Results"
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: testreport-audit-test-single-datasource-${{ matrix.java }}
