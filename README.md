@@ -1,6 +1,6 @@
 Grails Audit Logging Plugin
 ===
-[![Java CI](https://github.com/grails-plugins/grails-audit-logging-plugin/actions/workflows/gradle.yml/badge.svg?event=push)](https://github.com/grails/grails-core/actions/workflows/gradle.yml)
+[![Java CI](https://github.com/grails-plugins/grails-audit-logging-plugin/actions/workflows/gradle.yml/badge.svg?event=push)](https://github.com/grails-plugins/grails-audit-logging-plugin/actions/workflows/gradle.yml)
 ![Grails 7 Compatible](https://img.shields.io/badge/Compatible-brightGreen?label=Grails%207&labelColor=grey)
 
 This plugin was originally maintained by [symentis](https://github.com/symentis) and was gracefully donated to the grails developers to maintain.
