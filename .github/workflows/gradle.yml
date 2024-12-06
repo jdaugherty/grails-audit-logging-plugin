@@ -31,7 +31,7 @@ jobs:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
           DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
           DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
-        run: ./gradlew check
+        run: ./gradlew check --continue
       - name: "☄️ Upload Base Tests Results - audit-test"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -50,7 +50,7 @@ jobs:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
           DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
           DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
-        run: ./gradlew :examples:audit-test:check -Daudit-test.AuditTrail.datasource=DEFAULT
+        run: ./gradlew :examples:audit-test:check -Daudit-test.AuditTrail.datasource=DEFAULT --continue
       - name: "☄️ Upload audit-test Outside of Transaction Tests Results"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
