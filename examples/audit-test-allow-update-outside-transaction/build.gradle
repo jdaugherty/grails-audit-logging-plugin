@@ -89,3 +89,14 @@ test {
         exceptionFormat = 'full'
     }
 }
+
+tasks.withType(Test).configureEach { Task it ->
+    useJUnitPlatform()
+
+    if (it.name == 'test') {
+        it.testLogging {
+            showStandardStreams = true
+            exceptionFormat = 'full'
+        }
+    }
+}

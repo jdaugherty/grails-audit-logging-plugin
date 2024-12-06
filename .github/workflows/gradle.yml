@@ -28,22 +28,27 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: "🔨 Run Base Tests"
         env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         run: ./gradlew check
-      - name: "☄️ Upload Base Tests Results"
+      - name: "☄️ Upload Base Tests Results - audit-test"
+        uses: actions/upload-artifact@v4
+        with:
+          name: testreport-audit-test-${{ matrix.java }}
+          path: examples/audit-test/build/reports/tests
+      - name: "☄️ Upload Base Tests Results - audit-test-allow-update-outside-transaction"
         uses: actions/upload-artifact@v4
         with:
           name: testreport-audit-test-allow-update-outside-transaction-${{ matrix.java }}
           path: examples/audit-test-allow-update-outside-transaction/build/reports/tests
-      - name: "🔨 Run Tests Outside of Transaction"
+      - name: "🔨 Run audit-test Outside of Transaction Tests"
         env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         run: ./gradlew :examples:audit-test:check -Daudit-test.AuditTrail.datasource=DEFAULT
-      - name: "☄️ Upload Outside of Transaction Tests Results"
+      - name: "☄️ Upload audit-test Outside of Transaction Tests Results"
         uses: actions/upload-artifact@v4
         with:
           name: testreport-audit-test-single-datasource-${{ matrix.java }}
@@ -66,7 +71,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: "📤 Publish to Snapshot (repo.grails.org)"
         env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
           MAVEN_PUBLISH_USERNAME: ${{ secrets.MAVEN_PUBLISH_USERNAME }}
           MAVEN_PUBLISH_PASSWORD: ${{ secrets.MAVEN_PUBLISH_PASSWORD }}
           MAVEN_PUBLISH_URL: ${{ secrets.MAVEN_PUBLISH_SNAPSHOT_URL }}
@@ -75,7 +80,7 @@ jobs:
       - name: "📜 Generate Documentation"
         if: success()
         env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
         working-directory: ./plugin
         run: ../gradlew docs
       - name: "🚀 Publish to Github Pages"

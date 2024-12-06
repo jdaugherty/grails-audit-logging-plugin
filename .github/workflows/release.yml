@@ -47,8 +47,8 @@ jobs:
         if: success()
         id: assemble
         env:
-          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         run: ./gradlew assemble
       - name: "📝 Generate secring file"
         env:
@@ -64,8 +64,8 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
           SECRING_FILE: ${{ secrets.SECRING_FILE }}
-          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         working-directory: ./plugin
         run: >
           ../gradlew
@@ -93,11 +93,11 @@ jobs:
       - name: "🐘 Setup Gradle"
         uses: gradle/actions/setup-gradle@v4
         with:
-            develocity-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+            develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: "🏆Nexus Staging Close And Release"
         env:
-          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_STAGING_PROFILE_ID: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
@@ -134,8 +134,8 @@ jobs:
       - name: "📜 Generate Documentation"
         id: docs
         env:
-          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.DEVELOCITY_BUILD_CACHE_NODE_KEY }}
         working-directory: ./plugin
         run: ../gradlew docs
       - name: "🚀 Publish to Github Pages"

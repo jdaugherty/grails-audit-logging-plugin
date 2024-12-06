@@ -82,20 +82,24 @@ task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
 
-test {
-    testLogging {
-        showStandardStreams = true
-        exceptionFormat = 'full'
-        events = ["passed", "failed", "skipped", 'standardOut', 'standardError']
-    }
-}
+tasks.withType(Test).configureEach { Task it ->
+    useJUnitPlatform()
 
-integrationTest {
-    // Added to pass on audit-test.AuditTrail.datasource
-    systemProperties += System.properties
-    testLogging {
-        showStandardStreams = true
-        exceptionFormat = 'full'
-        events = ["passed", "failed", "skipped", 'standardOut', 'standardError']
+    if (it.name == 'test') {
+        it.testLogging {
+            showStandardStreams = true
+            exceptionFormat = 'full'
+            events = ["passed", "failed", "skipped", 'standardOut', 'standardError']
+        }
+    }
+
+    if (it.name == 'integrationTest') {
+        // Added to pass on audit-test.AuditTrail.datasource
+        it.systemProperties += System.properties
+        it.testLogging {
+            showStandardStreams = true
+            exceptionFormat = 'full'
+            events = ["passed", "failed", "skipped", 'standardOut', 'standardError']
+        }
     }
 }
