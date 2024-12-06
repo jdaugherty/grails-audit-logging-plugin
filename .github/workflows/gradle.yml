@@ -1,4 +1,4 @@
-name: Java CI
+name: "Java CI"
 on:
   push:
     branches:
@@ -13,6 +13,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: ['17', '21']
     steps:
       - name: "📥 Checkout the repository"
         uses: actions/checkout@v4
@@ -20,15 +23,31 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'liberica'
-          java-version: '17'
+          java-version: ${{ matrix.java }}
       - name: "🐘 Setup Gradle"
         uses: gradle/actions/setup-gradle@v4
-      - name: "🔨 Run Build"
+      - name: "🔨 Run Base Tests"
         env:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
           DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
         run: ./gradlew check
+      - name: "☄️ Upload Base Tests Results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: testreport-audit-test-allow-update-outside-transaction-${{ matrix.java }}
+          path: examples/audit-test-allow-update-outside-transaction/build/reports/tests
+      - name: "🔨 Run Tests Outside of Transaction"
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
+          DEVELOCITY_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+        run: ./gradlew :examples:audit-test:check -Daudit-test.AuditTrail.datasource=DEFAULT
+      - name: "☄️ Upload Outside of Transaction Tests Results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: testreport-audit-test-single-datasource-${{ matrix.java }}
+          path: examples/audit-test/build/reports/tests
   publish:
     if: github.event_name == 'push'
     needs: build
