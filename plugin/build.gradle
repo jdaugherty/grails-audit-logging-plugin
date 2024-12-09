@@ -27,12 +27,6 @@ ext {
     gradleWrapperVersion = project.gradleWrapperVersion
 }
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url "https://repo.grails.org/grails/core" }
-}
-
 compileJava.options.release = 17
 
 dependencies {
