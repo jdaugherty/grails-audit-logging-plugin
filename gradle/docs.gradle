@@ -1,3 +1,11 @@
+import java.text.SimpleDateFormat
+
+static String buildDate() {
+  def df = new SimpleDateFormat("yyyy-MM-dd")
+  df.setTimeZone(TimeZone.getTimeZone("UTC"))
+  return df.format(new Date())
+}
+
 asciidoctor {
   logDocuments true
   baseDirFollowsSourceDir()
