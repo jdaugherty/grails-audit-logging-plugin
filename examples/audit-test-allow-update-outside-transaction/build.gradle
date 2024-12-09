@@ -1,7 +1,4 @@
 buildscript {
-    ext {
-        grailsVersion = project.grailsVersion
-    }
     repositories {
         maven { url "https://repo.grails.org/grails/core" }
     }
@@ -14,7 +11,6 @@ plugins {
   id "com.bertramlabs.asset-pipeline" version "$assetPipelineVersion"
 }
 
-
 version project.projectVersion
 group "audit.test"
 
@@ -23,11 +19,6 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "org.grails.grails-web"
 apply plugin: "org.grails.grails-gsp"
-
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-}
 
 assets {
     minifyJs = true
@@ -77,10 +68,6 @@ dependencies {
     testCompileOnly "org.grails:grails-gorm-testing-support"
     testCompileOnly "org.mockito:mockito-core"
     testImplementation "org.grails:grails-web-testing-support"
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
 }
 
 test {
