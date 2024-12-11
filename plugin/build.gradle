@@ -22,11 +22,6 @@ apply plugin: "idea"
 apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-gsp"
 
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -61,10 +56,6 @@ dependencies {
 }
 
 bootJar.enabled = false
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
-}
 
 apply plugin: "org.grails.grails-publish"
 grailsPublish {
