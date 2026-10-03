@@ -21,6 +21,9 @@ class Author implements Auditable {
     static hasMany = [books: Book]
 
     static constraints = {
+        // Grails 8 properties are nullable by default; keep these required so invalid authors fail validation
+        name nullable: false
+        age nullable: false
         lastUpdatedBy nullable: true
         publisher nullable: true
     }
