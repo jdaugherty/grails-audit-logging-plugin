@@ -21,6 +21,10 @@ dependencies {
     // TODO: We need to make this configurable/pluggable
     compileOnly "org.apache.grails:grails-data-hibernate5"
 
+    // The unit test Spock extension only runs where these are on the test classpath
+    compileOnly "org.apache.grails.testing:grails-testing-support-core"
+    compileOnly "org.spockframework:spock-core"
+
     testCompileOnly "org.apache.grails:grails-testing-support-web"
 }
 

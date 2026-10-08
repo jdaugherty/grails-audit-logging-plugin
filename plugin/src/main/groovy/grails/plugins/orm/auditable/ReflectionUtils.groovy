@@ -22,6 +22,9 @@ import org.grails.config.PropertySourcesConfig
 import org.springframework.core.env.MapPropertySource
 import org.springframework.core.env.MutablePropertySources
 import org.springframework.core.env.PropertySource
+
+import java.util.function.Supplier
+
 /**
  * Helper methods that use dynamic Groovy
  */
@@ -30,6 +33,9 @@ class ReflectionUtils {
 
     // set at startup
     static GrailsApplication application
+
+    // resolves the application when the plugin has not initialized it, see AuditLoggingUnitTestExtension
+    static Supplier<GrailsApplication> applicationSupplier
 
     private ReflectionUtils() {
         // static only
@@ -57,10 +63,18 @@ class ReflectionUtils {
     }
 
     static Config getApplicationConfig() {
-        if (!application) {
+        GrailsApplication grailsApplication = resolveApplication()
+        if (!grailsApplication) {
             throw new IllegalStateException('AuditLoggingGrailsPlugin/BeanRegistrar initialization must complete before accessing audit configuration')
         }
-        application.config
+        grailsApplication.config
+    }
+
+    private static GrailsApplication resolveApplication() {
+        if (!application && applicationSupplier) {
+            application = applicationSupplier.get()
+        }
+        application
     }
 
     static ConfigObject getAuditConfig() {
@@ -89,10 +103,11 @@ class ReflectionUtils {
         config.grails.plugin.auditLog = c
 
         PropertySource propertySource = new MapPropertySource('AuditConfig', [:] << config)
-        def propertySources = application.mainContext.environment.propertySources
+        GrailsApplication grailsApplication = resolveApplication()
+        def propertySources = grailsApplication.mainContext.environment.propertySources
         propertySources.addFirst propertySource
 
-        application.config = new PropertySourcesConfig(propertySources)
+        grailsApplication.config = new PropertySourcesConfig(propertySources)
     }
 
 }
