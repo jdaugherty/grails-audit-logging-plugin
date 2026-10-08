@@ -83,20 +83,20 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     permissions:
-        contents: read
+        contents: write  #  to push the merge-back branch
+        issues: write  #  to close the milestone
+        pull-requests: write  #  to open the merge-back pull request
     steps:
-      - name: "📥 Checkout repository"
-        uses: actions/checkout@v7
-      - name: "☕️ Setup JDK"
-        uses: actions/setup-java@v6
-        with:
-            distribution: liberica
-            java-version: 21
       - name: "📥 Checkout repository"
         uses: actions/checkout@v7
         with:
             token: ${{ secrets.GH_TOKEN }}
             ref: v${{ needs.publish.outputs.release_version }}
+      - name: "☕️ Setup JDK"
+        uses: actions/setup-java@v6
+        with:
+            distribution: liberica
+            java-version: 21
       - name: "🐘 Setup Gradle"
         uses: gradle/actions/setup-gradle@v6
         with:
