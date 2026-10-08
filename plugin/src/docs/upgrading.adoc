@@ -23,6 +23,12 @@ The audit domain class remains application-owned. Existing customizations contin
 
 The auditing and stamping traits, including `Auditable` and `Stampable`, keep their established usage. Follow the configuration guide for supported settings.
 
+=== Unit Tests
+
+Reading audit configuration before the plugin has initialized now fails with an `IllegalStateException`, instead of silently falling back to `Holders`. Unit tests never load the plugin, so the plugin ships a Spock extension that keeps them working without any changes: for every spec implementing `GrailsUnitTest` (for example through `DataTest`, `DomainUnitTest` or `ControllerUnitTest`), audit configuration is read from that spec's own application, including anything it sets in `doWithConfig`. The application is only resolved when audit configuration is first read, and it is cleared once the spec finishes.
+
+The extension registers itself through `META-INF/services` and only activates when Grails testing support is on the test classpath. Code outside a unit test that reads audit configuration too early still fails.
+
 == Upgrading to 5.0.x
 
 ** The 5.0.0 version has some significant changes to the 4.0.x version.

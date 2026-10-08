@@ -51,6 +51,7 @@ dependencies {
     testImplementation "org.apache.grails:grails-testing-support-datamapping"
     testImplementation "org.apache.grails:grails-testing-support-web"
     testImplementation "org.spockframework:spock-core"
+    testImplementation "org.junit.platform:junit-platform-testkit" // EmbeddedSpecRunner
 
     implementation project(":audit-logging")
     profile "org.apache.grails.profiles:web"

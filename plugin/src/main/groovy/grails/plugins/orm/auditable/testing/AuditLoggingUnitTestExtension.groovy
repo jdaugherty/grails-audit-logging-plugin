@@ -1,0 +1,53 @@
+/* Copyright 2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package grails.plugins.orm.auditable.testing
+
+import groovy.transform.CompileStatic
+import org.spockframework.runtime.extension.IGlobalExtension
+import org.spockframework.runtime.model.SpecInfo
+
+/**
+ * Lets Grails unit tests use {@link grails.plugins.orm.auditable.Auditable} and
+ * {@link grails.plugins.orm.auditable.Stampable} domains without loading the plugin.
+ *
+ * Outside a running application the plugin never initializes, so reading audit configuration fails. For every spec
+ * that implements {@code GrailsUnitTest}, this extension supplies the spec's own application on demand and clears it
+ * again once the spec finishes. Specs that never read audit configuration are unaffected; their application is not
+ * created any earlier than it otherwise would be.
+ *
+ * Registered automatically through {@code META-INF/services}, and inactive unless Grails testing support is on the
+ * test classpath.
+ */
+@CompileStatic
+class AuditLoggingUnitTestExtension implements IGlobalExtension {
+
+    private static final Class<?> GRAILS_UNIT_TEST = loadOptional('org.grails.testing.GrailsUnitTest')
+
+    @Override
+    void visitSpec(SpecInfo spec) {
+        if (GRAILS_UNIT_TEST?.isAssignableFrom(spec.reflection)) {
+            AuditLoggingUnitTestSupport.register(spec)
+        }
+    }
+
+    private static Class<?> loadOptional(String className) {
+        try {
+            Class.forName(className, false, AuditLoggingUnitTestExtension.classLoader)
+        }
+        catch (ClassNotFoundException | LinkageError ignored) {
+            null
+        }
+    }
+}
