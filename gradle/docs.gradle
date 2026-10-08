@@ -7,7 +7,7 @@ static String buildDate() {
 }
 
 asciidoctor {
-  logDocuments true
+  logDocuments = true
   baseDirFollowsSourceDir()
 
   sourceDir = file('src/docs')
@@ -15,7 +15,7 @@ asciidoctor {
     include 'index.adoc'
   }
 
-  outputDir new File(buildDir, 'docs')
+  outputDir = new File(buildDir, 'docs')
 
   outputOptions {
     backends = ['html5', 'pdf', 'epub3']
@@ -44,6 +44,10 @@ tasks.matching { it.name in ['javadocJar', 'cliJavadocJar'] }.configureEach {
 }
 
 task docs(dependsOn: 'asciidoctor') {
+  // Task.project is deprecated at execution time, so read these while configuring
+  String docsName = project.name
+  String docsVersion = project.version.toString()
+
   doLast {
     File dir = new File(buildDir, 'docs')
     dir.mkdirs()
@@ -51,11 +55,11 @@ task docs(dependsOn: 'asciidoctor') {
     ['pdf', 'epub'].each { String ext ->
       File f = new File(dir, 'index.' + ext)
       if (f.exists()) {
-        f.renameTo new File(dir, project.name + '-' + project.version + '.' + ext)
+        f.renameTo new File(dir, docsName + '-' + docsVersion + '.' + ext)
       }
     }
 
-    new File(buildDir, 'docs/ghpages.html') << file('src/docs/templates/index.tmpl').text.replaceAll("@VERSION@", project.version).replaceAll("@DOCDATE@", buildDate())
+    new File(buildDir, 'docs/ghpages.html') << file('src/docs/templates/index.tmpl').text.replaceAll("@VERSION@", docsVersion).replaceAll("@DOCDATE@", buildDate())
 
     copy {
       from 'src/docs'
