@@ -58,7 +58,7 @@ class AuditTrailController {
 
   Object search(String query) {
     params.max = Math.min(params.max ?: 10, 100)
-    def auditTrails = AuditTrail.forQuery(query).forDateCreated(params.searchByDate ? params.dateCreated : null).list(params)
+    def auditTrails = AuditTrail.search(query, params.searchByDate ? params.dateCreated : null).list(params)
     render(view: "index", model: [auditTrailList:auditTrails,  query:query, byDate:params.searchByDate, auditTrailCount: auditTrails.size()])
   }
 }

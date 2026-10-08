@@ -18,6 +18,7 @@
 */
 package test
 
+import grails.gorm.DetachedCriteria
 import groovy.transform.ToString
 
 /**
@@ -83,13 +84,16 @@ class AuditTrail implements Serializable {
         version false
     }
 
-    static namedQueries = {
-        forQuery { String q ->
-            if (!q?.trim()) return // return all
-            def queries = q.tokenize()?.collect {
-                '%' + it.replaceAll('_', '\\\\_') + '%'
-            }
-            queries.each { query ->
+    /**
+     * Grails 8 removed named queries, so the search is built as a DetachedCriteria.
+     * Every whitespace separated term must match one of the text columns; a blank query matches all.
+     */
+    static DetachedCriteria<AuditTrail> search(String q, Date createdAfter) {
+        List<String> queries = (q?.tokenize() ?: []).collect {
+            '%' + it.replaceAll('_', '\\\\_') + '%'
+        }
+        new DetachedCriteria(AuditTrail).build {
+            queries.each { String query ->
                 or {
                     ilike 'actor', query
                     ilike 'persistedObjectId', query
@@ -98,11 +102,9 @@ class AuditTrail implements Serializable {
                     ilike 'newValue', query
                 }
             }
-        }
-
-        forDateCreated { Date date ->
-            if (!date) return
-            gt 'dateCreated', date
+            if (createdAfter) {
+                gt 'dateCreated', createdAfter
+            }
         }
     }
 
