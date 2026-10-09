@@ -7,6 +7,7 @@
 ** Improved configuration reload behavior so runtime configuration changes are applied consistently.
 ** Fixed Windows wrapper termination and diagnostics when Java cannot be discovered.
 ** Fixed `AuditLogEventController`, which failed every request with `MissingPropertyException: No such property: auditDomainClass`.
+** Declared the runtime dependency on `grails-rest-transforms`. Without it, an application failed at startup with `NoClassDefFoundError: grails/artefact/controller/RestResponder`.
 ** Existing audit domain customizations and `grails.plugin.auditLog.*` configuration remain supported. Do not rerun quickstart during an upgrade; manage any intentional audit-domain redesign manually.
 
 * 6.0.0
