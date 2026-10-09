@@ -158,6 +158,36 @@ class AuditUpdateSpec extends Specification {
         first.newValue == '**********'
     }
 
+    void "Test verboseEvents given as names"() {
+        when:
+        Author.withNewTransaction {
+            AuditLogContext.withConfig(verbose: false, verboseEvents: ['UPDATE']) {
+                def author = Author.findByName("Aaron")
+                author.age = 50
+                author.famous = false
+                author.save(flush: true, failOnError: true)
+            }
+        }
+
+        then: "one row for each changed property"
+        def events = AuditTrail.withCriteria { eq('className', 'test.Author') }
+        events*.propertyName.sort() == ['age', 'famous']
+    }
+
+    void "Test ignoreEvents given as names"() {
+        when:
+        Author.withNewTransaction {
+            AuditLogContext.withConfig(ignoreEvents: ['UPDATE']) {
+                def author = Author.findByName("Aaron")
+                author.age = 50
+                author.save(flush: true, failOnError: true)
+            }
+        }
+
+        then:
+        AuditTrail.withCriteria { eq('className', 'test.Author') }.empty
+    }
+
     void "Test two saves, one flush"() {
         when:
         Author.withNewTransaction {
