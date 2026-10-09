@@ -205,11 +205,11 @@ class AuditLogListener extends AbstractPersistenceEventListener {
                 // This indicates a change
                 Object newVal = newMap[propertyName]
                 if (newVal != null) {
-                    newValueAsString = conditionallyMaskAndTruncate(domain, propertyName, domain.convertLoggedPropertyToString(propertyName, newVal), truncateLength)
+                    newValueAsString = convertMaskAndTruncate(domain, propertyName, newVal)
                 }
                 Object oldVal = oldMap[propertyName]
                 if (newVal != oldVal) {
-                    oldValueAsString = conditionallyMaskAndTruncate(domain, propertyName, domain.convertLoggedPropertyToString(propertyName, oldVal), truncateLength)
+                    oldValueAsString = convertMaskAndTruncate(domain, propertyName, oldVal)
                 }
 
                 // Create a new entity for each property
@@ -234,6 +234,17 @@ class AuditLogListener extends AbstractPersistenceEventListener {
                 AuditLogQueueManager.addToQueue(audit, event)
             }
         }
+    }
+
+    /**
+     * A masked value is logged as the mask without being converted first. Converting an association calls
+     * toString() on it, which initializes a proxy during the flush.
+     */
+    protected String convertMaskAndTruncate(Auditable domain, String propertyName, Object value) {
+        if (value != null && isMasked(domain, propertyName)) {
+            return getPropertyMask()
+        }
+        conditionallyMaskAndTruncate(domain, propertyName, domain.convertLoggedPropertyToString(propertyName, value), truncateLength)
     }
 
     /**

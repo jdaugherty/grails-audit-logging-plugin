@@ -122,14 +122,30 @@ class AuditLogListenerUtil {
         // Always trim any space
         value = value.trim()
 
-        if (domain.logMaskProperties && domain.logMaskProperties.contains(propertyName)) {
-            return AuditLogContext.context.propertyMask as String ?: '********'
+        if (isMasked(domain, propertyName)) {
+            return propertyMask
         }
         if (maxLength && value.length() > maxLength) {
             return value.substring(0, maxLength)
         }
 
         value
+    }
+
+    /**
+     * @param domain the auditable domain object
+     * @param propertyName property name
+     * @return true if the value of the property is logged as the mask
+     */
+    static boolean isMasked(Auditable domain, String propertyName) {
+        domain.logMaskProperties && domain.logMaskProperties.contains(propertyName)
+    }
+
+    /**
+     * @return the value logged in place of a masked property
+     */
+    static String getPropertyMask() {
+        AuditLogContext.context.propertyMask as String ?: '********'
     }
 
     /**
