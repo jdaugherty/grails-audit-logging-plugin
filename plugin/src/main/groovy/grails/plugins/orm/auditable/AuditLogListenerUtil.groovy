@@ -18,6 +18,7 @@
 */
 package grails.plugins.orm.auditable
 
+import grails.core.GrailsApplication
 import grails.gorm.validation.ConstrainedProperty
 import grails.gorm.validation.PersistentEntityValidator
 import grails.util.Holders
@@ -71,6 +72,31 @@ class AuditLogListenerUtil {
      */
     static Map<String, Object> makeMap(Collection<String> propertyNames, Auditable domain) {
         propertyNames.collectEntries { [it, domain.metaClass.getProperty(domain, it)] }
+    }
+
+    /**
+     * @return the configured audit domain class
+     */
+    static Class<GormEntity> getAuditDomainClass() {
+        getAuditDomainClass(Holders.grailsApplication)
+    }
+
+    /**
+     * @param grailsApplication the application that holds the audit domain class
+     * @return the configured audit domain class
+     */
+    static Class<GormEntity> getAuditDomainClass(GrailsApplication grailsApplication) {
+        String auditLogClassName = AuditLogContext.context['auditDomainClassName'] as String
+        if (!auditLogClassName) {
+            throw new IllegalArgumentException("grails.plugin.auditLog.auditDomainClassName could not be found in application.groovy. Have you performed 'grails audit-quickstart' after installation?")
+        }
+
+        Class domainClass = grailsApplication.getClassForName(auditLogClassName)
+        if (!GormEntity.isAssignableFrom(domainClass)) {
+            throw new IllegalArgumentException("The specified audit domain class $auditLogClassName is not a GORM entity")
+        }
+
+        domainClass as Class<GormEntity>
     }
 
     /**

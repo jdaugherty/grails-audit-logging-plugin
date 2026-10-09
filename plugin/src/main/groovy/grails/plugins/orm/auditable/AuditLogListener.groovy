@@ -270,17 +270,7 @@ class AuditLogListener extends AbstractPersistenceEventListener {
      * @return configured AuditLogEvent class
      */
     protected Class<GormEntity> getAuditDomainClass() {
-        String auditLogClassName = AuditLogContext.context['auditDomainClassName'] as String
-        if (!auditLogClassName) {
-            throw new IllegalArgumentException("grails.plugin.auditLog.auditDomainClassName could not be found in application.groovy. Have you performed 'grails audit-quickstart' after installation?")
-        }
-
-        Class domainClass = grailsApplication.getClassForName(auditLogClassName)
-        if (!GormEntity.isAssignableFrom(domainClass)) {
-            throw new IllegalArgumentException("The specified audit domain class $auditLogClassName is not a GORM entity")
-        }
-
-        domainClass as Class<GormEntity>
+        AuditLogListenerUtil.getAuditDomainClass(grailsApplication)
     }
 
     protected Long getPersistedObjectVersion(Auditable domain, Map<String, Object> newMap, Map<String, Object> oldMap) {

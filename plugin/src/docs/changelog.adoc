@@ -6,6 +6,7 @@
 ** Updated the build toolchain, example application, and CI to the Grails 8 and Java 21 baseline.
 ** Improved configuration reload behavior so runtime configuration changes are applied consistently.
 ** Fixed Windows wrapper termination and diagnostics when Java cannot be discovered.
+** Fixed `AuditLogEventController`, which failed every request with `MissingPropertyException: No such property: auditDomainClass`.
 ** Existing audit domain customizations and `grails.plugin.auditLog.*` configuration remain supported. Do not rerun quickstart during an upgrade; manage any intentional audit-domain redesign manually.
 
 * 6.0.0
