@@ -2,14 +2,12 @@ package test
 
 import grails.plugins.orm.auditable.Auditable
 
-class Author implements Auditable {
+class Publisher implements Auditable {
+    String code
     String name
-    Long age
-    Publisher publisher
 
     static constraints = {
+        code nullable: false
         name nullable: false
-        age nullable: false
-        publisher nullable: true
     }
 }
