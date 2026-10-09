@@ -76,6 +76,10 @@ If you use the old configuration key, the plugin will log a notice.
 |grails.plugin.auditLog.usePersistentDirtyPropertyValues
 |`true`
 |By default, the old persistent value is obtained using getPersistentValue(). On newer Grails versions, this could fail. If the original value is always NULL in your case, you can set this property to "false", so getOriginalValue() is used.
+
+|grails.plugin.auditLog.controllerEnabled
+|`false`
+|Serve the audit log at `/auditLogEvent/list` and `/auditLogEvent/show/<id>`. While this is `false`, every action of `AuditLogEventController` responds with 404. The controller does no authorization of its own, so an application that enables it must secure these URLs, for example with Spring Security.
 |====================
 NOTE: You can view the above defaults in the `DefaultAuditLogConfig.groovy`
 
