@@ -86,7 +86,10 @@ class AuditLogQueueManager {
               new AfterTransactionCompletionProcess() {
                   @Override
                   void doAfterTransactionCompletion(boolean success, SharedSessionContractImplementor session2) {
-                      if (success && auditProcesses.remove(transaction)) {
+                      // Remove the queue after a rollback too. A session reuses its Transaction, so a queue left
+                      // in the map would collect the audit instances of its later transactions without any
+                      // callback registered to write them.
+                      if (auditProcesses.remove(transaction) && success) {
                           auditProcess.afterCommit()
                       }
                   }

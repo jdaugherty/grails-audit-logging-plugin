@@ -87,6 +87,28 @@ class AuditTransactionSpec extends Specification {
         } == 1
     }
 
+    void "Test rollback does not stop auditing of later transactions in the same session"() {
+        when:
+        Author.withNewSession {
+            Author.withTransaction { TransactionStatus transactionStatus ->
+                Author.findByName("Aaron").age = 1
+                Author.withSession { Session session ->
+                    session.flush()
+                }
+                transactionStatus.setRollbackOnly()
+            }
+            // The session reuses its Hibernate transaction
+            Author.withTransaction {
+                Author.findByName("Aaron").age = 3
+            }
+        }
+
+        then:
+        AuditTrail.withNewTransaction {
+            AuditTrail.list().collect { [it.propertyName, it.oldValue, it.newValue] }
+        } == [['age', '37', '3']]
+    }
+
     void "Test nested transactions"() {
         when:
         Author.withNewTransaction { TransactionStatus transactionStatus ->
