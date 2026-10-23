@@ -64,11 +64,28 @@ class AuditLogEventControllerSpec extends Specification {
         !show.body().contains('Aaron')
     }
 
-    void "the controller lists and shows the audit log when the application enables it"() {
+    void "the controller stays off when controllerEnabled is #value.inspect()"() {
+        given: "a value other than true, as a properties file or a system property supplies it"
+        setControllerEnabled(value)
+
+        when:
+        HttpResponse<String> list = get('/auditLogEvent/list')
+        HttpResponse<String> show = get("/auditLogEvent/show/${auditTrailId}")
+
+        then:
+        list.statusCode() == 404
+        !list.body().contains('test.Author')
+
+        show.statusCode() == 404
+        !show.body().contains('Aaron')
+
+        where:
+        value << [false, 'false']
+    }
+
+    void "the controller lists and shows the audit log when the application enables it with #value.inspect()"() {
         given:
-        grailsApplication.mainContext.environment.propertySources.addAfter('AuditConfig',
-            new MapPropertySource(PROPERTY_SOURCE, ['grails.plugin.auditLog.controllerEnabled': true]))
-        AuditLoggingConfigUtils.resetAuditConfig()
+        setControllerEnabled(value)
 
         when:
         HttpResponse<String> list = get('/auditLogEvent/list')
@@ -80,6 +97,15 @@ class AuditLogEventControllerSpec extends Specification {
 
         show.statusCode() == 200
         show.body().contains('Aaron')
+
+        where:
+        value << [true, 'true']
+    }
+
+    private void setControllerEnabled(Object value) {
+        grailsApplication.mainContext.environment.propertySources.addAfter('AuditConfig',
+            new MapPropertySource(PROPERTY_SOURCE, ['grails.plugin.auditLog.controllerEnabled': value]))
+        AuditLoggingConfigUtils.resetAuditConfig()
     }
 
     private HttpResponse<String> get(String path) {

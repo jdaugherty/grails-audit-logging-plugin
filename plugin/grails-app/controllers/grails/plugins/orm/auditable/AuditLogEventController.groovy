@@ -87,10 +87,18 @@ class AuditLogEventController {
      * This controller does no authorization, so it would show the audit log to anyone who can reach it.
      */
     private whenEnabled(Closure action) {
-        if (!AuditLogContext.context.controllerEnabled) {
+        if (!isControllerEnabled()) {
             render(status: 404)
             return null
         }
         action.call()
+    }
+
+    /**
+     * Only the boolean true, or the string 'true' as a properties file or a system property supplies it, enables
+     * the controller. Any other value keeps it off: Groovy truth would accept a string such as 'false'.
+     */
+    private static boolean isControllerEnabled() {
+        Boolean.parseBoolean(String.valueOf(AuditLogContext.context.controllerEnabled))
     }
 }
